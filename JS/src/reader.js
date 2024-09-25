@@ -14,7 +14,8 @@ const fileToTasks = `${__dirname}/data/tasks.json`
 export function read() {
   try {
     const data = fs.readFileSync(fileToTasks, 'utf8');
-    return (JSON.parse(data));
+    const parsedData = JSON.parse(data);
+    return (parsedData);
   } catch {
     console.error("Error reading file", err);
     return;
@@ -23,12 +24,25 @@ export function read() {
 
 export function hole() {
   const json = read();
-  let counter = 0;
-  for (let i = 0; i < json.tasks.length; i++) {
-    if (json.tasks[i].id == i + 1) counter++;
-    console.log(`${json.tasks[i].id} -- ${i + 1}`)
+  let existingIDs = [];
+  try {
+    const length = json.tasks.length
+    for (let i = 0; i < length; i++) {
+      existingIDs.push(json.tasks[i].id)
+    }
+  } catch {
+    return 0;
   }
-  return ++counter;
+  if (existingIDs.length == 0) {
+    return 0;
+  }
+  let i = 0;
+  for (i = 0; i <= Math.max(...existingIDs); i++) {
+    if (!existingIDs.includes(i)) {
+      return i;
+    }
+  }
+  return i++;
 }
 
-hole();
+

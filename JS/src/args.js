@@ -1,5 +1,5 @@
 import { read } from "./reader.js";
-import { write } from "./writer.js";
+import { write, update, del } from "./writer.js";
 
 export function argsHandler(input) {
   switch (input[2]) {
@@ -8,6 +8,12 @@ export function argsHandler(input) {
       break;
     case 'write':
       write(input[3]);
+      break;
+    case 'update':
+      update(input[3], input[4]);
+      break;
+    case 'delete':
+      del(input[3])
       break;
     default:
       console.error("Unrecognized command.", input[2])
