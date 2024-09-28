@@ -54,6 +54,44 @@ export function update(id, content) {
   }
 }
 
+export function markInProgress(id) {
+  if (id == undefined) {
+    console.error("Invalid ID");
+    return;
+  }
+  try {
+    const json = read();
+    json.tasks.forEach((task) => {
+      if (task.id == id) {
+        task.status = "Progress"
+      }
+    })
+    fs.writeFileSync(fileToTasks, JSON.stringify(json, null, 2))
+    console.log("Task is progress");
+  } catch {
+    console.error("Some kind of error while marking in progress. Debug please")
+  }
+}
+
+export function markDone(id) {
+  if (id == undefined) {
+    console.error("Invalid ID");
+    return;
+  }
+  try {
+    const json = read();
+    json.tasks.forEach((task) => {
+      if (task.id == id) {
+        task.status = "Done"
+      }
+    })
+    fs.writeFileSync(fileToTasks, JSON.stringify(json, null, 2))
+    console.log("Task marked Done");
+  } catch {
+    console.error("Some kind of error while marking as done. Debug please")
+  }
+}
+
 export function del(id) {
   if (id == undefined) {
     console.error("Wrong ID");
