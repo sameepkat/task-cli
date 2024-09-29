@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import path from 'path'
+import path, { parse } from 'path'
 
 const __filename = fileURLToPath(import.meta.url);
 let __dirname = path.dirname(__filename);
@@ -11,12 +11,21 @@ const fileToTasks = `${__dirname}/data/tasks.json`
 
 
 
-export function read() {
+export function read(filter) {
   try {
     const data = fs.readFileSync(fileToTasks, 'utf8');
     const parsedData = JSON.parse(data);
-    return (parsedData);
-  } catch {
+    switch (filter) {
+      case 'done':
+        return parsedData.tasks.filter(task => task.status == 'Done')
+      case 'progress':
+        return parsedData.tasks.filter(task => task.status == 'Progress')
+      case 'todo':
+        return parsedData.tasks.filter(task => task.status == 'Todo')
+      default:
+        return parsedData;
+    }
+  } catch (err) {
     console.error("Error reading file", err);
     return;
   }

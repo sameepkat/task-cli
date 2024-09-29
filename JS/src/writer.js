@@ -21,7 +21,7 @@ export function write(content) {
     let newTask = {
       id: id,
       description: null,
-      status: null,
+      status: 'Todo',
       createdAt: `${date.getMonth()}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`,
       title: content
     }
