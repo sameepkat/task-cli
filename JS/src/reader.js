@@ -13,7 +13,7 @@ const fileToTasks = `${__dirname}/data/tasks.json`
 export function convertToTable(obj) {
   try {
     const table = new Table({ head: ["ID".blue, "Title".blue, "Status".blue, "createdAt".blue] });
-    const allTasks = obj;
+    const allTasks = obj.tasks;
     allTasks.forEach(task => {
       let taskData = [];
       taskData.push(task.id);
@@ -34,15 +34,22 @@ export function read(filter) {
   try {
     const data = fs.readFileSync(fileToTasks, 'utf8');
     const parsedData = JSON.parse(data);
+    const allTasks = parsedData.tasks;
     switch (filter) {
       case 'done':
-        return (parsedData.tasks.filter(task => task.status == 'Done'))
+        const done = (allTasks.filter(task => task.status == 'done'))
+        parsedData.tasks = done;
+        return parsedData;
       case 'progress':
-        return (parsedData.tasks.filter(task => task.status == 'Progress'))
+        const progress = (allTasks.filter(task => task.status == 'progress'))
+        parsedData.tasks = progress;
+        return parsedData;
       case 'todo':
-        return (parsedData.tasks.filter(task => task.status == 'Todo'))
+        const todo = (allTasks.filter(task => task.status == 'todo'))
+        parsedData.tasks = todo;
+        return parsedData;
       default:
-        return (parsedData.tasks)
+        return (parsedData)
     }
   } catch (err) {
     console.error("Error reading file", err);
