@@ -1,6 +1,8 @@
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import path, { parse } from 'path'
+import Table from "cli-table";
+import colors from 'colors';
 
 const __filename = fileURLToPath(import.meta.url);
 let __dirname = path.dirname(__filename);
@@ -8,7 +10,24 @@ __dirname = path.dirname(__dirname)
 const fileToTasks = `${__dirname}/data/tasks.json`
 
 
-
+export function convertToTable(obj) {
+  try {
+    const table = new Table({ head: ["ID".blue, "Title".blue, "Status".blue, "createdAt".blue] });
+    const allTasks = obj;
+    allTasks.forEach(task => {
+      let taskData = [];
+      taskData.push(task.id);
+      taskData.push(task.title);
+      taskData.push(task.status);
+      taskData.push(task.createdAt);
+      table.push(taskData);
+      taskData = []
+    })
+    return (table.toString());
+  } catch {
+    console.error("Error reading data. Verify that data/tasks.json exists ")
+  }
+}
 
 
 export function read(filter) {
@@ -17,13 +36,13 @@ export function read(filter) {
     const parsedData = JSON.parse(data);
     switch (filter) {
       case 'done':
-        return parsedData.tasks.filter(task => task.status == 'Done')
+        return (parsedData.tasks.filter(task => task.status == 'Done'))
       case 'progress':
-        return parsedData.tasks.filter(task => task.status == 'Progress')
+        return (parsedData.tasks.filter(task => task.status == 'Progress'))
       case 'todo':
-        return parsedData.tasks.filter(task => task.status == 'Todo')
+        return (parsedData.tasks.filter(task => task.status == 'Todo'))
       default:
-        return parsedData;
+        return (parsedData.tasks)
     }
   } catch (err) {
     console.error("Error reading file", err);
