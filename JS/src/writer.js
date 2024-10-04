@@ -21,7 +21,7 @@ export function write(content) {
     let newTask = {
       id: id,
       description: null,
-      status: 'Todo',
+      status: 'todo',
       createdAt: `${date.getMonth()}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`,
       title: content
     }
@@ -63,7 +63,7 @@ export function markInProgress(id) {
     const json = read();
     json.tasks.forEach((task) => {
       if (task.id == id) {
-        task.status = "Progress"
+        task.status = "progress"
       }
     })
     fs.writeFileSync(fileToTasks, JSON.stringify(json, null, 2))
@@ -82,7 +82,7 @@ export function markDone(id) {
     const json = read();
     json.tasks.forEach((task) => {
       if (task.id == id) {
-        task.status = "Done"
+        task.status = "done"
       }
     })
     fs.writeFileSync(fileToTasks, JSON.stringify(json, null, 2))
