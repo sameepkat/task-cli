@@ -1,3 +1,5 @@
 node_modules/
 try.js
 dist/
+.env
+.env.d.ts

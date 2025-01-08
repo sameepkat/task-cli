@@ -13,16 +13,18 @@ export const createTodo = async (req: AuthenticatedUser , res: Response) => {
     }
     const { title, description } = req.body;
     const todo = await Todo.create({ title, description, userId: user._id });
-    return res.status(201).json({
+    res.status(201).json({
       message: "Todo created successfully",
       todo,
     });
+    return;
   } catch (error) {
     console.error("Error creating todo: ", error)
 
-    return res.status(500).json({
+    res.status(500).json({
       message: "Internal Server Error",
     });
+    return;
   }
 };
 
@@ -30,15 +32,17 @@ export const getUsersAllTodos = async (req: Request, res: Response) => {
   try{
 
     const todos = await Todo.find();
-    return res.status(200).json({
+    res.status(200).json({
       message: "All todos",
       todos,
     });
+    return;
   }catch(error){
     console.error("Error fetching todos: ", error);
 
-    return res.status(500).json({
+    res.status(500).json({
       message: "Internal Server Error",
-    })
+    });
+    return;
   }
 };

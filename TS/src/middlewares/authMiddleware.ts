@@ -70,9 +70,10 @@ export const JWTMiddleware = async (req: AuthenticatedUser, res: Response, next:
 export const getUserProfile = async (req: AuthenticatedUser, res: Response, next: NextFunction) => {
     try {
         const user = req.user;
-        return res.status(200).json({ message: "Profile fetched successfully", user, });
-        next();
+        res.status(200).json({ message: "Profile fetched successfully", user, });
+        return;
     } catch (error) {
-        return res.status(500).json({ message: "Something went wrong!", });
-         }
+        res.status(500).json({ message: "Something went wrong!", });
+        return;
+    }
 };
