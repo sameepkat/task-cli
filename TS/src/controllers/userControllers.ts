@@ -19,9 +19,10 @@ export const registerUser = async(req: Request, res: Response, next: NextFunctio
         });
 
         if(userExists){
-            return res.status(400).json({
+            res.status(400).json({
                 message: "User already exists",
             });
+            return;
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -33,14 +34,16 @@ export const registerUser = async(req: Request, res: Response, next: NextFunctio
             }
         );
 
-        return res.status(201).json({
+        res.status(201).json({
             message: "User created successfully",
             user,
         });
+        return;
     }catch(error){
-        return res.status(500).json({
+        res.status(500).json({
             message: "Something went wrong",
         });
+        return;
     }
 };
 
@@ -54,17 +57,19 @@ export const loginUser = async(req: Request, res: Response, next: NextFunction )
         });
 
         if(!dbUser){
-            return res.status(401).json({
+            res.status(401).json({
                 message: "Invalid credentials",
             });
+            return;
         }
 
         const passwordFlag = await bcrypt.compare(password, dbUser.password);
 
         if(!passwordFlag){
-            return res.status(401).json({
+            res.status(401).json({
                 message: "Invalid credentials",
             });
+            return;
         }
         
         const accessToken = jwt.sign(
@@ -77,13 +82,15 @@ export const loginUser = async(req: Request, res: Response, next: NextFunction )
             }
         );
 
-        return res.status(200).json({
+        res.status(200).json({
             message: "Login Successfull",
             token: accessToken,
         });
+        return;
     }catch(error){
-        return res.status(500).json({
+        res.status(500).json({
             message: "Something went wrong",
         });
+        return;
     }
 }

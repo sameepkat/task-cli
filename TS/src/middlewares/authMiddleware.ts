@@ -40,7 +40,13 @@ export const JWTMiddleware = async (req: AuthenticatedUser, res: Response, next:
 
         console.log("Access Token: ", accessToken);
 
-        const decodedToken = jwt.verify(accessToken, jwtSecret) as JwtPayload;
+        const decodedToken = jwt.verify(accessToken, jwtSecret,
+            {
+                algorithms: ["HS512"],
+                issuer: "TODO APP",
+                ignoreExpiration: false,
+            }
+        ) as JwtPayload;
         console.log("Decoded Token: ", decodedToken);
 
         const user = await User.findById(decodedToken.userId);
