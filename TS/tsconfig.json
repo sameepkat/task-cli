@@ -10,6 +10,6 @@
     "rootDir": ".",
     "sourceMap": true, //Optional: Generate some source maps for debugging.
   },
-  "include": ["src/**/*", "index.ts"],
+  "include": ["src/**/*", "index.ts", "src/views"],
   "exclude": ["node_modules", "dist"]
 }

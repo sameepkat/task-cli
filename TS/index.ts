@@ -1,4 +1,5 @@
 import express, {Request, Response, NextFunction} from "express";
+import path from "node:path";
 import * as dotenv from "dotenv";
 import mongoose from "mongoose";
 import UserRoutes from "./src/routes/userRoutes";
@@ -11,13 +12,14 @@ if(!mongoURI)
 
 const app = express();
 
+app.set("views", path.join(__dirname, "src/views"));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response, next: NextFunction) =>{
     res.status(200).json({
-        message: "Server is running.",
+        message: "Server is running 2.",
     });
 });
 

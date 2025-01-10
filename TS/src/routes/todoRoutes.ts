@@ -1,11 +1,11 @@
-import express from "express";
+import { Router } from "express";
 import {
     createTodo,
     getUsersAllTodos,
 } from "../controllers/toDoControllers";
 import { JWTMiddleware } from "../middlewares/authMiddleware";
 
-const router = express.Router();
+const router = Router();
 
 router
     .route("/")
